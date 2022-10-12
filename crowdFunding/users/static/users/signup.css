@@ -1,0 +1,44 @@
+body {
+  margin: 0;
+  font-family: 'Lato', sans-serif;
+  font-size: 12px;
+  line-height: 1.8em;
+  text-transform: none;
+  letter-spacing: .075em;
+  font-weight: bold;
+  font-style: normal;
+  text-decoration: none;
+  color: #e7bd74;
+  background-color: rgba(34,28,28);
+  display: block;
+}
+
+.btn-submit {
+	border: 0;
+    width: 100%;
+    height: 35px;
+    border-radius: 5px;
+    background: #28a745;
+    color: #fff;
+    margin-top: 20px;
+}
+
+.title {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+ h2, h3, h4 {
+  color: rgba(255,255,255);
+  font-weight: 100;
+  font-size: 3rem;
+}
+
+a {
+  text-decoration: none;
+  color: #fff;
+}
+
+h1{
+    color: #28a745;
+}

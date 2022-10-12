@@ -1,0 +1,32 @@
+#carouselExampleInterval {
+    margin: 100px;
+    width: 40%;
+    height: 0px;
+}
+
+#NP-icon {
+    margin-top: 180px;
+}
+
+.data {
+    width: 40%;
+    margin-left: 55%;
+}
+
+.desc {
+    width: 100%;
+    font-size: 22px;
+    color: black;
+    margin: 5px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    max-lines: 1;
+    line-height: 20px;
+    max-height: 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.title {
+    color: #16222A;
+    margin: 5px;
+}

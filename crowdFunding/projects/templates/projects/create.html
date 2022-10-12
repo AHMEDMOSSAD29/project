@@ -1,0 +1,43 @@
+{% extends 'users/base.html' %}
+{%block title%}create project{% endblock%}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}
+<br>
+<h3 style="text-align : center; color: #138D75; font-family: Georgia"> Create Project</h3>
+<hr width="100%">
+  <form class="create_s" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-8">
+          {{ form.title|as_crispy_field }}
+          {{ form.details|as_crispy_field }}
+          {{ form.target|as_crispy_field }}
+          {{ form.start_date|as_crispy_field }}
+          {{ form.end_date|as_crispy_field }}
+          {{ form.category|as_crispy_field }}
+          <div class="form-group">
+            <label>Tags</label>
+            <input type="text" data-role="tagsinput" class="form-control" name="tags">
+          </div>
+        </div>
+        <div class="col-8">
+          {{ formset|crispy }}
+        </div>
+      </div>
+    </div>
+    <br>
+    <button type="submit" class="boy btn" style="background-color: #17A589; width: 50%; margin-left: 25%">Create Project</button>
+  </form>
+
+  <br><br>
+{% block js %}
+<script src="https://github.com/bootstrap-tagsinput/bootstrap-tagsinput.git"></script>
+<script src="{%static 'users/js/script.js'%}"></script>
+
+{% endblock %}
+
+
+{% endblock %}

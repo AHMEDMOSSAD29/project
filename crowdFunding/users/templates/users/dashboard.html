@@ -1,0 +1,160 @@
+{% extends "users/base.html" %}
+{% load static %}
+{% block title %}Admin{% endblock title %}
+{% block css %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="{%static 'users/js/script.js'%}"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+    integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+<!-- <link rel="stylesheet" href="{% static 'base/css/navbar.css' %}" /> -->
+<style>
+    body {
+        background: #f3f3f3;
+        color: #616f80;
+    }
+
+    .search {
+        display: none;
+    }
+
+    .container {
+        width: 100%;
+    }
+
+    .card {
+        border: none;
+        margin-bottom: 24px;
+        -webkit-box-shadow: 0 0 13px 0 rgba(236, 236, 241, .44);
+        box-shadow: 0 0 13px 0 rgba(236, 236, 241, .44);
+    }
+
+    .avatar-xs {
+        height: 4rem;
+        width: 4rem;
+    }
+
+    .before {
+        height: 4rem;
+        width: 4rem;
+    }
+
+    td {
+        align-items: center;
+    }
+
+    .table_main {
+        display: flex;
+        justify-content: space-evenly;
+        background-color: #F2F6FC;
+
+    }
+
+
+    .table_left {
+        margin-top: 30px;
+        flex: 3;
+    }
+
+    .table_right {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        gap: 10px;
+    }
+</style>
+{% endblock css %}
+{% block content %}
+{% comment %} Delete Project {% endcomment %}
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Confirm Deletion</h5>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to permanently remove this project?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    <input type="text" id="name" name="delete_project" style='display:none;'></input>
+                    <button type='submit' class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+ 
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Confirm Deletion</h5>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to permanently remove {{project.project_title}} project?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    <input type="text" id="name" name="delete_category" style='display:none;'></input>
+                    <button type='submit' class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<div class="table_main">
+
+    <div class="table_left">
+
+        <div class="container">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col" ><h5 style="color:rgb(15, 168, 135);">ID</h5></th>
+                        <th scope="col" ><h5 style="color:rgb(15, 168, 135);">project name</h5></th>
+                        <th scope="col" ><h5 style="color:rgb(15, 168, 135);">feature</h5></th>
+                        <th scope="col" ><h5 style="color:rgb(15, 168, 135);">delete</h5></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for project in projects %}
+                    <tr>
+                        <th scope="row">{{project.id}}</th>
+                        <td>{{project.title}}</td>
+                        
+                        </td>
+                        <td>
+                            <form action="{% url 'users:feature_it' %}" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="project" value="{{project.id}}">
+                                <button class="btn btn-success" {% if project.is_featured %} enable {% endif %} >Feature it </button>
+                            </form>
+
+                        </td>
+                        <td>
+                            <div class="action ">
+                                <form action="{% url 'users:dashboard' project.id %}" method="POST">
+                                    {% csrf_token %}
+                                    <input type="text" name="delete_project" style='display:none;' value="{{project.id}}"></input>
+                                    <button type='submit' class="btn btn-danger">Delete</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+{% endblock content %}
+ 

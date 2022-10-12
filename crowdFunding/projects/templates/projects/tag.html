@@ -1,0 +1,28 @@
+{% extends 'users/base.html' %}
+{% load static %}
+
+{% block head-css %}
+<link href="{% static 'css/viewCat.css' %}" rel="stylesheet" media="screen">
+{% endblock %}
+
+{% block title %}
+{{ tag }}
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    {% for p in projects %}
+    <div class="col-md-3 mt-4">
+        <div class="card">
+<!--              --><img src="/static/{{ p.imgs.first.img_url }}" class="card-img-top">
+            <div class="card-body">
+                <h5 class="card-title">{{p.title }}</h5>
+                <p class="card-text">{{p.details }}</p>
+                <a href="{% url 'show_proj' p.id %}" class="btn btn-primary"> Show Details </a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

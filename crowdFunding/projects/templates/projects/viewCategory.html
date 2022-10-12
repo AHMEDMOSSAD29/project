@@ -1,0 +1,30 @@
+{% extends 'users/base.html' %}
+{% load static %}
+
+{% block head-css %}
+    
+    <link href="{% static 'css/viewCat.css' %}" rel="stylesheet" media="screen">
+{% endblock %}
+
+{% block title %}
+    {{ catName.name }}
+{% endblock %}
+{% block content %}
+<br><br>
+<h3 style="color: #138D75; font-family: Georgia"> {{ catName.name }} </h3>
+    <div class="row">
+        {% for p in catName.project_set.all %}
+            <div class="col-md-3 mt-4">
+                <div class="card cardDes">
+                    <img src="/static/{{ p.imgs.all.first.img_url }}" class="card-img-top projImg">
+                    <div class="card-body">
+                      <h5 class="card-title">{{p.title }}</h5>
+                      <p class="card-text desc">{{p.details }}</p>
+                      <a href="{% url 'show_proj' p.id %}" class="btn" style="background-color: #148F77"> Show Details </a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}

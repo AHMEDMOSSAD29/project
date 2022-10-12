@@ -1,0 +1,168 @@
+{% extends 'users/base.html' %}
+{%block title%}profile{% endblock%}
+{% load countries %}
+{% get_country 'BR' as country %}
+{% load crispy_forms_tags %}
+{% block content %}
+<br>
+<main role="main" class="container mt-4">
+  <div class="row">
+    <div class="col-md-8">
+
+      <div class="content-section">
+        <div class="media" >
+          {% if userprofile.profile.user_image %}
+          <img src="{{ userprofile.profile.user_image.url }}" width="150" height="150"
+            class="rounded-circle account-img ml-4">
+          {% endif %}
+
+          <div class="media-body m-1 mt-4">
+            <h4 class="account-heading"  style="color : #0E6251">{{userprofile.first_name}} {{userprofile.last_name}}</h4>
+            <p class="text-secondary">
+              {{userprofile.email}}
+            </p>
+          </div>
+        </div>
+        <br>
+        <!-- FORM HERE -->
+
+        <div class="container">
+
+          <!--  projects   -->
+          <div class="card-deck">
+            {% for p in userProject %}
+
+            <div class="col-md-6 mt-4">
+              <div class="card cardDes">
+                <a href="{% url 'show_proj' p.id %}">
+                  <img src="/static/{{ p.imgs.all.first.img_url }}" class="card-img-top projImg"> </a>
+                <div class="card-body">
+                  <h5 class="card-title mb-1">{{p.title }}</h5>
+                  <p class="card-text mb-1">Category: <a href="{% url 'show_cate' p.id %}">{{ p.category }}</a><br />
+
+                    <p class="card-text desc"> Details: {{p.details }}</p>
+                    {% if p.delete_flag %}
+                    <form action="{% url 'delete_project' p.id %}" method="POST">
+                      {% csrf_token %}
+                      <button type="submit" style="margin-left: 0;" class="btn btn-danger" >cancel project</button>
+                    </form>
+                    {% endif %}
+                </div>
+              </div>
+            </div>
+
+            {% endfor %}
+          </div>
+          <div>
+            <h2 class="h1 mb-4 mt-4 text-center" style="color : #0E6251" id="donations"> Donations </h2>
+          </div>
+
+          <div class="card-deck ">
+            {% for p in donations %}
+            <div class="col-md-6 mt-4">
+              <div class="media shadow mb-2 bg-white rounded" style="height:80px;">
+                <div class="row ">
+                  <div class="col-sm-4">
+                    <a href="{% url 'show_proj' p.id %}">
+                      <img src="/static/{{ p.project.imgs.all.first.img_url }}" alt="John Doe" class="mr-3"
+                        style="width:70px; height: 80px;">
+                    </a>
+                  </div>
+                  <div class="col-sm-8">
+                    <div class="media-body mr-3 mt-2">
+                      <h6>{{ p.project.title }}</h6>
+                      Quantity: {{ p.amount }}$<br />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+        <div>
+          <h2 class="h1 mb-4 mt-4 text-center" id="about" style="color : #0E6251"> Profile Info</h2>
+        </div>
+        <div class="card">
+
+          <div class="card-body">
+
+            <p class="card-text">
+
+
+              <ul class="list-unstyled">
+                <li class="py-3 pl-2 border-bottom bg-light" >
+
+                  <span  class="text h5 mr-3" style="color : #0E6251" > <i class="fas fa-user"></i> User Name :</span>
+                  <span class="h5 text-muted">{{userprofile.first_name}} {{userprofile.last_name}}</span>
+                </li>
+
+                <li class="py-3 pl-2 border-bottom bg-light">
+                  <span class="text h5 mr-3" style="color : #0E6251"> <i class="fas fa-envelope"></i> Email :</span>
+                  <span class="h5 text-muted">{{ userprofile.email }}</span>
+                </li>
+                <li class="py-3 pl-2 border-bottom bg-light">
+                  <span class="text h5 mr-3" style="color : #0E6251"> <i class="fab fa-facebook-square"></i> FaceBook :</span>
+                  <span class="h5 text-muted">{{userprofile.profile.facebook|default_if_none:''}}</span>
+                </li>
+                <li class="py-3 pl-2 border-bottom bg-light">
+                  <span class="text h5 mr-3" style="color : #0E6251"> <i class="fas fa-city"></i> country :</span>
+                  <span class="h5 text-muted">{{userprofile.profile.country.name|default_if_none:''}}</span>
+                </li>
+                <li class="py-3 pl-2 border-bottom bg-light">
+                  <span class="text h5 mr-3" style="color : #0E6251"> <i class="fas fa-birthday-cake"></i> Birth Date :</span>
+                  <span class="h5 text-muted">{{userprofile.profile.birth_date|default_if_none:''}}</span>
+                </li>
+
+                <li class="py-3 pl-2 border-bottom bg-light">
+                  <span class="text h5 mr-3" style="color : #0E6251"> <i class="fas fa-phone"></i> Phone :</span>
+                  <span class="h5 text-muted">{{userprofile.profile.phone|default_if_none:''}}</span>
+                </li>
+
+              </ul>
+
+            </p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="col-md-4">
+      <div class="content-section">
+        <h3 style="color: #0E6251; font-family: Georgia">Options</h3>
+        <p class='text-muted'>
+          <ul class="list-group">
+            <li class="list-group-item ">
+              <div class="dropdown show">
+                <a style="color : #0E6251" class="dropdown-toggle" data-hover="dropdown" href="#" role="button" id="dropdownMenuLink"
+                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Latest Projects
+                </a>
+
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                  {% for p in latestFiveList %}
+                  {% if forloop.counter >= 1 %}
+                  <a class="dropdown-item" href="{% url 'show_proj' p.id %}">{{ p.title }}</a>
+                  {% endif %}
+                  {% endfor %}
+
+                </div>
+              </div>
+
+
+            </li>
+            <li class="list-group-item list-group-item-light"><a class="sidebar" href="#donations" style="color : #0E6251">Donations</a></li>
+            <li class="list-group-item list-group-item-light"><a class="sidebar" href="#about" style="color : #0E6251">About</a></li>
+            {% if user.id == userprofile.id %}
+            <li class="list-group-item list-group-item-light"><a class="sidebar"
+                href="{% url 'users:edit' userprofile.id %}" style="color : #0E6251">Edit Profile</a></li>
+            <li class="list-group-item list-group-item-light"><a class="sidebar"
+                href="{% url 'users:delete' userprofile.id %}" style="color : #0E6251">delete Profile</a></li>
+            {% endif %}
+          </ul>
+        </p>
+      </div>
+    </div>
+  </div>
+</main>
+{% endblock %}

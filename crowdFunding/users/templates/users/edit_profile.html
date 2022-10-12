@@ -1,0 +1,27 @@
+{% extends 'users/base.html' %}
+
+{% load crispy_forms_tags %}
+{% block content %}
+<br>
+<main role="main">
+ <div class="row align-items-center">
+     <div class="col-md-2"></div>
+     <div class="col-md-8 m-4">
+           <form method="POST" enctype="multipart/form-data">
+               {% csrf_token %}
+               <fieldset class="form-group">
+                   <h3 class="border-bottom mb-4" style="color: #138D75; font-family: Georgia">Update Info</h3>
+                   {{ u_form|crispy }}
+                   {{ p_form|crispy }}
+               </fieldset>
+               <div class="form-group">
+
+                   <button class="btn btn-info" type="submit" style="background-color: #17A589">Update</button>
+                   <a href = "{% url 'users:delete' userprofile.id  %}" class="btn btn-danger">Delete Profile</a>
+               </div>
+           </form>
+     </div>
+     <div class="col-md-2"></div>
+ </div>
+</main>
+{% endblock %}
