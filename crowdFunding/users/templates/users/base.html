@@ -89,11 +89,13 @@
                 >Home</a
               >
             </li>
+            {% if request.user.is_superuser %}
             <li class="nav-item">
               <a class="nav-link" href="{% url 'createCategory' %}"
                 >Create Category
               </a>
             </li>
+            {% endif %}
             <li class="nav-item dropdown">
               <a
                 class="nav-link dropdown-toggle"
@@ -121,9 +123,9 @@
               >
             </li>
             {% if request.user.is_superuser %}
-            <li>
+            <li class="nav-item">
               <a
-                class="nav-item"
+                class="nav-link"
                 href="{% url 'users:dashboard' user.id %}"
                 >Admin</a
               >
@@ -143,7 +145,7 @@
             name="searchBox"
             class="form-control mr-sm-2"
             type="search"
-            placeholder="Search"
+            placeholder="Search for a project"
             aria-label="Search"
           />
           <button
